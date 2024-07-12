@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.3.450">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Sangho Lee">
+<meta name="dcterms.date" content="2024-07-11">
+
+<title>q2</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="q2_files/libs/clipboard/clipboard.min.js"></script>
+<script src="q2_files/libs/quarto-html/quarto.js"></script>
+<script src="q2_files/libs/quarto-html/popper.min.js"></script>
+<script src="q2_files/libs/quarto-html/tippy.umd.min.js"></script>
+<script src="q2_files/libs/quarto-html/anchor.min.js"></script>
+<link href="q2_files/libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="q2_files/libs/quarto-html/quarto-syntax-highlighting.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="q2_files/libs/bootstrap/bootstrap.min.js"></script>
+<link href="q2_files/libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="q2_files/libs/bootstrap/bootstrap.min.css" rel="stylesheet" id="quarto-bootstrap" data-mode="light">
+
+
+</head>
+
+<body class="fullcontent">
+
+<div id="quarto-content" class="page-columns page-rows-contents page-layout-article">
+
+<main class="content" id="quarto-document-content">
+
+
+
+<section id="question-2-what-areasproducts-should-we-invest-to-increase-revenue.-what-products-are-doing-well-and-what-could-be-improved-propose-2-3-specific-recommendations-that-could-address-these-opportunities.-demonstrate-rationale-behind-each-recommendation" class="level2">
+<h2 class="anchored" data-anchor-id="question-2-what-areasproducts-should-we-invest-to-increase-revenue.-what-products-are-doing-well-and-what-could-be-improved-propose-2-3-specific-recommendations-that-could-address-these-opportunities.-demonstrate-rationale-behind-each-recommendation">Question 2: What areas/products should we invest to increase revenue. What Products are doing well and what could be improved? Propose 2-3 specific recommendations that could address these opportunities. Demonstrate rationale behind each recommendation</h2>
+<p><br></p>
+<p>Based on the statistical model from the previous question, we identified key variables to focus on to improve revenue: asin, ordered_units, and asp. Now, the task is to dive deeper into the data to determine which areas or products we should invest in to increase revenue.</p>
+<p>We can simply plot the top-performing products and categories based on revenue and units sold, which will be done here. However, there are several benefits to utilizing model prediction data instead of relying solely on actual sales data. We use prediction models instead of actual sales data because we don’t know the complete backstory behind the sales data numbers.</p>
+<p>For example, a product may have performed poorly due to external factors such as a competitor’s aggressive marketing campaign or a sudden change in consumer preferences. By using prediction models, we can identify products that are underperforming relative to their potential, allowing us to focus on areas that have room for improvement.</p>
+<p>In this analysis, we will compare the actual revenue data with the predicted revenue data from the model to identify products with the largest differences between predicted and actual revenue. This will help us pinpoint areas where we can invest to increase revenue.</p>
+<p><br></p>
+<section id="benefits-of-utilizing-model-prediction-data-instead-of-relying-on-actual-sales-data" class="level4">
+<h4 class="anchored" data-anchor-id="benefits-of-utilizing-model-prediction-data-instead-of-relying-on-actual-sales-data">Benefits of Utilizing Model Prediction Data Instead of Relying on Actual Sales Data</h4>
+<ul>
+<li>Identify potential issues like stock shortages.</li>
+<li>Optimize marketing strategies.</li>
+<li>Adjust pricing to match market demand.</li>
+<li>Improve product listings to enhance conversions.</li>
+<li>Prepare for seasonal demand.</li>
+<li>Estimate potential success for new product launches.</li>
+</ul>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show the refiend model that I created in the previous question</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">summary</span>(refined_model)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Call:
+lm(formula = ordered_revenue_amount ~ asin + ordered_units + 
+    asp, data = data_train)
+
+Residuals:
+   Min     1Q Median     3Q    Max 
+-77609   -597   -203    387 118636 
+
+Coefficients:
+                  Estimate   Std. Error t value            Pr(&gt;|t|)    
+(Intercept)   -1306.511753    94.473524 -13.829 &lt;0.0000000000000002 ***
+asin              0.011480     0.001364   8.414 &lt;0.0000000000000002 ***
+ordered_units    20.671226     0.205513 100.584 &lt;0.0000000000000002 ***
+asp              31.411177     0.966556  32.498 &lt;0.0000000000000002 ***
+---
+Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+
+Residual standard error: 4068 on 11772 degrees of freedom
+Multiple R-squared:  0.4845,    Adjusted R-squared:  0.4844 
+F-statistic:  3688 on 3 and 11772 DF,  p-value: &lt; 0.00000000000000022</code></pre>
+</div>
+</div>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Add predictions to the dataset</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>data_test<span class="sc">$</span>predicted_revenue <span class="ot">&lt;-</span> <span class="fu">predict</span>(refined_model, <span class="at">newdata =</span> data_test)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine training and testing data for a comprehensive dataset</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>data_combined <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(data_train, data_test)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>data_combined<span class="sc">$</span>predicted_revenue <span class="ot">&lt;-</span> <span class="fu">predict</span>(refined_model, <span class="at">newdata =</span> data_combined)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>data_combined <span class="sc">%&gt;%</span> </span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">head</span>(<span class="dv">10</span>) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  dplyr<span class="sc">::</span><span class="fu">select</span>(week_ending, asin, ordered_revenue_amount, ordered_units, asp, marketing_spend, views, predicted_revenue) <span class="sc">%&gt;%</span> </span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>() </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 11%">
+<col style="width: 5%">
+<col style="width: 22%">
+<col style="width: 13%">
+<col style="width: 8%">
+<col style="width: 15%">
+<col style="width: 5%">
+<col style="width: 17%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">week_ending</th>
+<th style="text-align: right;">asin</th>
+<th style="text-align: right;">ordered_revenue_amount</th>
+<th style="text-align: right;">ordered_units</th>
+<th style="text-align: right;">asp</th>
+<th style="text-align: right;">marketing_spend</th>
+<th style="text-align: right;">views</th>
+<th style="text-align: right;">predicted_revenue</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">99345</td>
+<td style="text-align: right;">1902.66</td>
+<td style="text-align: right;">95</td>
+<td style="text-align: right;">20.02800</td>
+<td style="text-align: right;">3741</td>
+<td style="text-align: right;">111</td>
+<td style="text-align: right;">2426.7939</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">91686</td>
+<td style="text-align: right;">224.15</td>
+<td style="text-align: right;">12</td>
+<td style="text-align: right;">18.67917</td>
+<td style="text-align: right;">2309</td>
+<td style="text-align: right;">185</td>
+<td style="text-align: right;">580.7918</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">90798</td>
+<td style="text-align: right;">437.74</td>
+<td style="text-align: right;">9</td>
+<td style="text-align: right;">48.63778</td>
+<td style="text-align: right;">4781</td>
+<td style="text-align: right;">253</td>
+<td style="text-align: right;">1449.6195</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">28305</td>
+<td style="text-align: right;">4.95</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">4.95000</td>
+<td style="text-align: right;">1643</td>
+<td style="text-align: right;">1069</td>
+<td style="text-align: right;">-805.4265</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">52947</td>
+<td style="text-align: right;">13.49</td>
+<td style="text-align: right;">1</td>
+<td style="text-align: right;">13.49000</td>
+<td style="text-align: right;">3206</td>
+<td style="text-align: right;">347</td>
+<td style="text-align: right;">-254.2959</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">40959</td>
+<td style="text-align: right;">13064.52</td>
+<td style="text-align: right;">597</td>
+<td style="text-align: right;">21.88362</td>
+<td style="text-align: right;">1292</td>
+<td style="text-align: right;">323</td>
+<td style="text-align: right;">12191.7913</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">57942</td>
+<td style="text-align: right;">612.19</td>
+<td style="text-align: right;">34</td>
+<td style="text-align: right;">18.00559</td>
+<td style="text-align: right;">3432</td>
+<td style="text-align: right;">1876</td>
+<td style="text-align: right;">627.0348</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">58053</td>
+<td style="text-align: right;">602.36</td>
+<td style="text-align: right;">44</td>
+<td style="text-align: right;">13.69000</td>
+<td style="text-align: right;">1284</td>
+<td style="text-align: right;">408</td>
+<td style="text-align: right;">699.4636</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">60495</td>
+<td style="text-align: right;">280.14</td>
+<td style="text-align: right;">6</td>
+<td style="text-align: right;">46.69000</td>
+<td style="text-align: right;">3930</td>
+<td style="text-align: right;">1156</td>
+<td style="text-align: right;">978.5589</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">19728</td>
+<td style="text-align: right;">59385</td>
+<td style="text-align: right;">1816.13</td>
+<td style="text-align: right;">69</td>
+<td style="text-align: right;">26.32072</td>
+<td style="text-align: right;">4519</td>
+<td style="text-align: right;">1673</td>
+<td style="text-align: right;">1628.2810</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p><br></p>
+<p>Now that we have the predicted_revenue column from the regression model, we can categorize the areas that overperformed and underperformed according to the model’s predictions.</p>
+<p><br></p>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Visualization: Actual vs. Predicted Revenue</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_combined, <span class="fu">aes</span>(<span class="at">x =</span> ordered_revenue_amount, <span class="at">y =</span> predicted_revenue)) <span class="sc">+</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Actual vs. Predicted Revenue"</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Actual Revenue"</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Predicted Revenue"</span>) <span class="sc">+</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<p><img src="q2_files/figure-html/unnamed-chunk-11-1.png" class="img-fluid" width="672"></p>
+</div>
+</div>
+<p><br></p>
+</section>
+<section id="predicted-higher-but-actual-sales-low" class="level4">
+<h4 class="anchored" data-anchor-id="predicted-higher-but-actual-sales-low">1. Predicted Higher but Actual Sales Low</h4>
+<p>Possible Reasons:</p>
+<ul>
+<li>Stock Shortages: Products may have had insufficient stock to meet predicted demand.</li>
+<li>Marketing Ineffectiveness: Marketing efforts may not have translated into actual sales.</li>
+<li>Product Issues: Issues such as poor reviews, low quality, or unappealing product listings could be deterring sales.</li>
+</ul>
+<p>Actions:</p>
+<ul>
+<li>Investigate Stock Levels: Ensure that these products are adequately stocked to meet potential demand.</li>
+<li>Enhance Marketing Strategies: Re-evaluate marketing campaigns to ensure they are effectively targeting the right audience.</li>
+<li>Improve Product Listings: Address any issues with product quality and enhance listings with better descriptions, images, and reviews.</li>
+</ul>
+</section>
+<section id="predicted-lower-but-actual-sales-high" class="level4">
+<h4 class="anchored" data-anchor-id="predicted-lower-but-actual-sales-high">2. Predicted Lower but Actual Sales High</h4>
+<p>Possible Reasons:</p>
+<ul>
+<li>Exceptional Demand: These products might have experienced an unexpected surge in demand.</li>
+<li>Successful Marketing: Effective marketing campaigns could have driven higher-than-expected sales.</li>
+<li>Seasonal/One-Time Events: The products could have benefited from seasonal trends or one-time events.</li>
+</ul>
+<p>Actions:</p>
+<ul>
+<li>Examine Sales Trends: Determine if the high sales are due to temporary factors or if they indicate a sustainable trend.</li>
+<li>Optimize Stock Management: Ensure these products are consistently in stock to capitalize on their high demand.</li>
+<li>Replicate Success: Identify what drove the success and apply similar strategies to other products.</li>
+</ul>
+</section>
+<section id="aligned-with-the-linear-line" class="level4">
+<h4 class="anchored" data-anchor-id="aligned-with-the-linear-line">3. Aligned with the Linear Line</h4>
+<p>Possible Reasons:</p>
+<ul>
+<li>Model Accuracy: The model accurately captures the factors driving sales for these products.</li>
+<li>Stable Demand: These products may have consistent and predictable demand.</li>
+</ul>
+<p>Actions:</p>
+<ul>
+<li>Maintain Current Strategies: Continue with the current strategies that are working well.</li>
+<li>Monitor for Changes: Keep an eye on any changes in trends that might affect these products in the future.</li>
+</ul>
+<p><br><br></p>
+<p>The plot shown above helps us identify areas where the model predictions are accurate and where they deviate from actual sales. However, we want to assign a critical score to items that significantly affect our revenue. By adjusting the size of the points, we can easily identify these key items.</p>
+<div class="cell" data-layout-align="center">
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>(data_combined, <span class="fu">aes</span>(<span class="at">x =</span> ordered_revenue_amount, <span class="at">y =</span> predicted_revenue, <span class="at">size =</span> ordered_revenue_amount, <span class="at">color =</span> <span class="fu">abs</span>(ordered_revenue_amount <span class="sc">-</span> predicted_revenue))) <span class="sc">+</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">alpha =</span> <span class="fl">0.5</span>) <span class="sc">+</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_abline</span>(<span class="at">slope =</span> <span class="dv">1</span>, <span class="at">intercept =</span> <span class="dv">0</span>, <span class="at">color =</span> <span class="st">"red"</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">title =</span> <span class="st">"Actual vs. Predicted Revenue with Critical Score by Actual Revenue"</span>,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>       <span class="at">x =</span> <span class="st">"Actual Revenue"</span>,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>       <span class="at">y =</span> <span class="st">"Predicted Revenue"</span>,</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>       <span class="at">size =</span> <span class="st">"Actual Revenue"</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>       <span class="at">color =</span> <span class="st">"Critical Score (|Actual - Predicted|)"</span>) <span class="sc">+</span></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_color_gradient</span>(<span class="at">low =</span> <span class="st">"blue"</span>, <span class="at">high =</span> <span class="st">"red"</span>) <span class="sc">+</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size_continuous</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">1</span>, <span class="dv">10</span>)) <span class="sc">+</span>  <span class="co"># Adjust the range to make points larger</span></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(<span class="at">legend.position =</span> <span class="st">"bottom"</span>,</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>        <span class="at">plot.title =</span> <span class="fu">element_text</span>(<span class="at">hjust =</span> <span class="fl">0.5</span>, <span class="at">size =</span> <span class="dv">14</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.x =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a>        <span class="at">axis.title.y =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">12</span>),</span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>        <span class="at">legend.text =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">8</span>)) <span class="sc">+</span></span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="dv">0</span>, <span class="at">xmax =</span> <span class="dv">20000</span>, <span class="at">ymin =</span> <span class="dv">50000</span>, <span class="at">ymax =</span> <span class="dv">120000</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">annotate</span>(<span class="st">"rect"</span>, <span class="at">xmin =</span> <span class="dv">80000</span>, <span class="at">xmax =</span> <span class="dv">150000</span>, <span class="at">ymin =</span> <span class="dv">0</span>, <span class="at">ymax =</span> <span class="dv">50000</span>, <span class="at">color =</span> <span class="st">"black"</span>, <span class="at">fill =</span> <span class="cn">NA</span>, <span class="at">size =</span> <span class="dv">1</span>, <span class="at">linetype =</span> <span class="st">"dashed"</span>) <span class="sc">+</span></span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data_combined <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ordered_revenue_amount <span class="sc">&lt;</span> <span class="dv">20000</span> <span class="sc">&amp;</span> predicted_revenue <span class="sc">&gt;</span> <span class="dv">50000</span>),</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> asin), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>) <span class="sc">+</span></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text</span>(<span class="at">data =</span> data_combined <span class="sc">%&gt;%</span> <span class="fu">filter</span>(ordered_revenue_amount <span class="sc">&gt;</span> <span class="dv">80000</span> <span class="sc">&amp;</span> ordered_revenue_amount <span class="sc">&lt;</span> <span class="dv">150000</span> <span class="sc">&amp;</span> predicted_revenue <span class="sc">&lt;</span> <span class="dv">50000</span>),</span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>            <span class="fu">aes</span>(<span class="at">label =</span> asin), <span class="at">size =</span> <span class="dv">3</span>, <span class="at">vjust =</span> <span class="sc">-</span><span class="dv">1</span>, <span class="at">color =</span> <span class="st">"black"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div class="quarto-figure quarto-figure-center">
+<figure class="figure">
+<p><img src="q2_files/figure-html/unnamed-chunk-12-1.png" class="img-fluid figure-img" width="960"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><br></p>
+<p>Below are the final recommended products for further examination. Based on the data, these are products with high predicted revenue but low actual revenue and products with low predicted revenue but high actual revenue, significantly impacting overall revenue.</p>
+<p>I have categorized these into Focus Area 1 and Focus Area 2.</p>
+<ul>
+<li>Focus Area 1: Products with high predicted revenue but low actual revenue. These products likely have potential, but something may be missing to maximize their profit.</li>
+<li>Focus Area 2: Products with low predicted revenue but high actual revenue. We need to investigate why these products are performing better than predicted. Understanding the reasons behind their success can help replicate it for other products or minimize risks in the future.</li>
+</ul>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the dataset based on the plot criteria</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>filtered_data_high_predicted_low_actual <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ordered_revenue_amount <span class="sc">&lt;</span> <span class="dv">20000</span> <span class="sc">&amp;</span> predicted_revenue <span class="sc">&gt;</span> <span class="dv">50000</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>filtered_data_low_predicted_high_actual <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(ordered_revenue_amount <span class="sc">&gt;</span> <span class="dv">80000</span> <span class="sc">&amp;</span> ordered_revenue_amount <span class="sc">&lt;</span> <span class="dv">150000</span> <span class="sc">&amp;</span> predicted_revenue <span class="sc">&lt;</span> <span class="dv">50000</span>)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the filtered data with segmentation</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>focus_area_1 <span class="ot">&lt;-</span> filtered_data_high_predicted_low_actual <span class="sc">%&gt;%</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">focus_area =</span> <span class="st">"Focus Area 1 (High Prediction, Low Revenue)"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Stock Shortages, Marketing Ineffectiveness, Product Issues"</span>)</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>focus_area_2 <span class="ot">&lt;-</span> filtered_data_low_predicted_high_actual <span class="sc">%&gt;%</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">focus_area =</span> <span class="st">"Focus Area 2 (Low Prediction, High Revenue)"</span>,</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings"</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the focus areas</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>segmented_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(focus_area_1, focus_area_2)</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the segmented data</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>segmented_data <span class="sc">%&gt;%</span></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">week_ending =</span> <span class="fu">as.Date</span>(week_ending)) <span class="sc">%&gt;%</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(asin) <span class="sc">%&gt;%</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">summarize</span>(<span class="at">focus_area =</span> <span class="fu">first</span>(focus_area), <span class="at">check_items =</span> <span class="fu">first</span>(check_items)) <span class="sc">%&gt;%</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  knitr<span class="sc">::</span><span class="fu">kable</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<table class="table table-sm table-striped small">
+<colgroup>
+<col style="width: 4%">
+<col style="width: 33%">
+<col style="width: 61%">
+</colgroup>
+<thead>
+<tr class="header">
+<th style="text-align: right;">asin</th>
+<th style="text-align: left;">focus_area</th>
+<th style="text-align: left;">check_items</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td style="text-align: right;">2775</td>
+<td style="text-align: left;">Focus Area 1 (High Prediction, Low Revenue)</td>
+<td style="text-align: left;">Stock Shortages, Marketing Ineffectiveness, Product Issues</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">11655</td>
+<td style="text-align: left;">Focus Area 1 (High Prediction, Low Revenue)</td>
+<td style="text-align: left;">Stock Shortages, Marketing Ineffectiveness, Product Issues</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">67599</td>
+<td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
+<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+</tr>
+<tr class="even">
+<td style="text-align: right;">90243</td>
+<td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
+<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+</tr>
+<tr class="odd">
+<td style="text-align: right;">90354</td>
+<td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
+<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</section>
+</section>
+
+</main>
+<!-- /main column -->
+<script id="quarto-html-after-body" type="application/javascript">
+window.document.addEventListener("DOMContentLoaded", function (event) {
+  const toggleBodyColorMode = (bsSheetEl) => {
+    const mode = bsSheetEl.getAttribute("data-mode");
+    const bodyEl = window.document.querySelector("body");
+    if (mode === "dark") {
+      bodyEl.classList.add("quarto-dark");
+      bodyEl.classList.remove("quarto-light");
+    } else {
+      bodyEl.classList.add("quarto-light");
+      bodyEl.classList.remove("quarto-dark");
+    }
+  }
+  const toggleBodyColorPrimary = () => {
+    const bsSheetEl = window.document.querySelector("link#quarto-bootstrap");
+    if (bsSheetEl) {
+      toggleBodyColorMode(bsSheetEl);
+    }
+  }
+  toggleBodyColorPrimary();  
+  const icon = "";
+  const anchorJS = new window.AnchorJS();
+  anchorJS.options = {
+    placement: 'right',
+    icon: icon
+  };
+  anchorJS.add('.anchored');
+  const isCodeAnnotation = (el) => {
+    for (const clz of el.classList) {
+      if (clz.startsWith('code-annotation-')) {                     
+        return true;
+      }
+    }
+    return false;
+  }
+  const clipboard = new window.ClipboardJS('.code-copy-button', {
+    text: function(trigger) {
+      const codeEl = trigger.previousElementSibling.cloneNode(true);
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+  });
+  clipboard.on('success', function(e) {
+    // button target
+    const button = e.trigger;
+    // don't keep focus
+    button.blur();
+    // flash "checked"
+    button.classList.add('code-copy-button-checked');
+    var currentTitle = button.getAttribute("title");
+    button.setAttribute("title", "Copied!");
+    let tooltip;
+    if (window.bootstrap) {
+      button.setAttribute("data-bs-toggle", "tooltip");
+      button.setAttribute("data-bs-placement", "left");
+      button.setAttribute("data-bs-title", "Copied!");
+      tooltip = new bootstrap.Tooltip(button, 
+        { trigger: "manual", 
+          customClass: "code-copy-button-tooltip",
+          offset: [0, -8]});
+      tooltip.show();    
+    }
+    setTimeout(function() {
+      if (tooltip) {
+        tooltip.hide();
+        button.removeAttribute("data-bs-title");
+        button.removeAttribute("data-bs-toggle");
+        button.removeAttribute("data-bs-placement");
+      }
+      button.setAttribute("title", currentTitle);
+      button.classList.remove('code-copy-button-checked');
+    }, 1000);
+    // clear code selection
+    e.clearSelection();
+  });
+  function tippyHover(el, contentFn) {
+    const config = {
+      allowHTML: true,
+      content: contentFn,
+      maxWidth: 500,
+      delay: 100,
+      arrow: false,
+      appendTo: function(el) {
+          return el.parentElement;
+      },
+      interactive: true,
+      interactiveBorder: 10,
+      theme: 'quarto',
+      placement: 'bottom-start'
+    };
+    window.tippy(el, config); 
+  }
+  const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+  for (var i=0; i<noterefs.length; i++) {
+    const ref = noterefs[i];
+    tippyHover(ref, function() {
+      // use id or data attribute instead here
+      let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+      try { href = new URL(href).hash; } catch {}
+      const id = href.replace(/^#\/?/, "");
+      const note = window.document.getElementById(id);
+      return note.innerHTML;
+    });
+  }
+      let selectedAnnoteEl;
+      const selectorForAnnotation = ( cell, annotation) => {
+        let cellAttr = 'data-code-cell="' + cell + '"';
+        let lineAttr = 'data-code-annotation="' +  annotation + '"';
+        const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+        return selector;
+      }
+      const selectCodeLines = (annoteEl) => {
+        const doc = window.document;
+        const targetCell = annoteEl.getAttribute("data-target-cell");
+        const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+        const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+        const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+        const lineIds = lines.map((line) => {
+          return targetCell + "-" + line;
+        })
+        let top = null;
+        let height = null;
+        let parent = null;
+        if (lineIds.length > 0) {
+            //compute the position of the single el (top and bottom and make a div)
+            const el = window.document.getElementById(lineIds[0]);
+            top = el.offsetTop;
+            height = el.offsetHeight;
+            parent = el.parentElement.parentElement;
+          if (lineIds.length > 1) {
+            const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+            const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+            height = bottom - top;
+          }
+          if (top !== null && height !== null && parent !== null) {
+            // cook up a div (if necessary) and position it 
+            let div = window.document.getElementById("code-annotation-line-highlight");
+            if (div === null) {
+              div = window.document.createElement("div");
+              div.setAttribute("id", "code-annotation-line-highlight");
+              div.style.position = 'absolute';
+              parent.appendChild(div);
+            }
+            div.style.top = top - 2 + "px";
+            div.style.height = height + 4 + "px";
+            let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+            if (gutterDiv === null) {
+              gutterDiv = window.document.createElement("div");
+              gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+              gutterDiv.style.position = 'absolute';
+              const codeCell = window.document.getElementById(targetCell);
+              const gutter = codeCell.querySelector('.code-annotation-gutter');
+              gutter.appendChild(gutterDiv);
+            }
+            gutterDiv.style.top = top - 2 + "px";
+            gutterDiv.style.height = height + 4 + "px";
+          }
+          selectedAnnoteEl = annoteEl;
+        }
+      };
+      const unselectCodeLines = () => {
+        const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+        elementsIds.forEach((elId) => {
+          const div = window.document.getElementById(elId);
+          if (div) {
+            div.remove();
+          }
+        });
+        selectedAnnoteEl = undefined;
+      };
+      // Attach click handler to the DT
+      const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+      for (const annoteDlNode of annoteDls) {
+        annoteDlNode.addEventListener('click', (event) => {
+          const clickedEl = event.target;
+          if (clickedEl !== selectedAnnoteEl) {
+            unselectCodeLines();
+            const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+            if (activeEl) {
+              activeEl.classList.remove('code-annotation-active');
+            }
+            selectCodeLines(clickedEl);
+            clickedEl.classList.add('code-annotation-active');
+          } else {
+            // Unselect the line
+            unselectCodeLines();
+            clickedEl.classList.remove('code-annotation-active');
+          }
+        });
+      }
+  const findCites = (el) => {
+    const parentEl = el.parentElement;
+    if (parentEl) {
+      const cites = parentEl.dataset.cites;
+      if (cites) {
+        return {
+          el,
+          cites: cites.split(' ')
+        };
+      } else {
+        return findCites(el.parentElement)
+      }
+    } else {
+      return undefined;
+    }
+  };
+  var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+  for (var i=0; i<bibliorefs.length; i++) {
+    const ref = bibliorefs[i];
+    const citeInfo = findCites(ref);
+    if (citeInfo) {
+      tippyHover(citeInfo.el, function() {
+        var popup = window.document.createElement('div');
+        citeInfo.cites.forEach(function(cite) {
+          var citeDiv = window.document.createElement('div');
+          citeDiv.classList.add('hanging-indent');
+          citeDiv.classList.add('csl-entry');
+          var biblioDiv = window.document.getElementById('ref-' + cite);
+          if (biblioDiv) {
+            citeDiv.innerHTML = biblioDiv.innerHTML;
+          }
+          popup.appendChild(citeDiv);
+        });
+        return popup.innerHTML;
+      });
+    }
+  }
+});
+</script>
+</div> <!-- /content -->
+
+
+
+</body></html>
