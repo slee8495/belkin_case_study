@@ -274,11 +274,11 @@ filtered_data_low_predicted_high_actual <- data_combined %>%
 # Combine the filtered data with segmentation
 focus_area_1 <- filtered_data_high_predicted_low_actual %>%
   mutate(focus_area = "Focus Area 1 (High Prediction, Low Revenue)",
-         check_items = "Stock Shortages, Marketing Ineffectiveness, Product Issues")
+         check_items = "Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings")
 
 focus_area_2 <- filtered_data_low_predicted_high_actual %>%
   mutate(focus_area = "Focus Area 2 (Low Prediction, High Revenue)",
-         check_items = "Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings")
+         check_items = "Examine Sales Trends, Optimize Stock Management, Replicate Success")
 
 # Combine the focus areas
 segmented_data <- bind_rows(focus_area_1, focus_area_2)

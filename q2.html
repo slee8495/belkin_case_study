@@ -372,6 +372,7 @@ F-statistic:  3688 on 3 and 11772 DF,  p-value: &lt; 0.00000000000000022</code><
 <li>Focus Area 1: Products with high predicted revenue but low actual revenue. These products likely have potential, but something may be missing to maximize their profit.</li>
 <li>Focus Area 2: Products with low predicted revenue but high actual revenue. We need to investigate why these products are performing better than predicted. Understanding the reasons behind their success can help replicate it for other products or minimize risks in the future.</li>
 </ul>
+<p><br></p>
 <div class="cell">
 <div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Filter the dataset based on the plot criteria</span></span>
 <span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>filtered_data_high_predicted_low_actual <span class="ot">&lt;-</span> data_combined <span class="sc">%&gt;%</span></span>
@@ -383,11 +384,11 @@ F-statistic:  3688 on 3 and 11772 DF,  p-value: &lt; 0.00000000000000022</code><
 <span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the filtered data with segmentation</span></span>
 <span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>focus_area_1 <span class="ot">&lt;-</span> filtered_data_high_predicted_low_actual <span class="sc">%&gt;%</span></span>
 <span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">focus_area =</span> <span class="st">"Focus Area 1 (High Prediction, Low Revenue)"</span>,</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Stock Shortages, Marketing Ineffectiveness, Product Issues"</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings"</span>)</span>
 <span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>focus_area_2 <span class="ot">&lt;-</span> filtered_data_low_predicted_high_actual <span class="sc">%&gt;%</span></span>
 <span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">focus_area =</span> <span class="st">"Focus Area 2 (Low Prediction, High Revenue)"</span>,</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings"</span>)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>         <span class="at">check_items =</span> <span class="st">"Examine Sales Trends, Optimize Stock Management, Replicate Success"</span>)</span>
 <span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
 <span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="co"># Combine the focus areas</span></span>
 <span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>segmented_data <span class="ot">&lt;-</span> <span class="fu">bind_rows</span>(focus_area_1, focus_area_2)</span>
@@ -416,27 +417,27 @@ F-statistic:  3688 on 3 and 11772 DF,  p-value: &lt; 0.00000000000000022</code><
 <tr class="odd">
 <td style="text-align: right;">2775</td>
 <td style="text-align: left;">Focus Area 1 (High Prediction, Low Revenue)</td>
-<td style="text-align: left;">Stock Shortages, Marketing Ineffectiveness, Product Issues</td>
+<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">11655</td>
 <td style="text-align: left;">Focus Area 1 (High Prediction, Low Revenue)</td>
-<td style="text-align: left;">Stock Shortages, Marketing Ineffectiveness, Product Issues</td>
+<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">67599</td>
 <td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
-<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+<td style="text-align: left;">Examine Sales Trends, Optimize Stock Management, Replicate Success</td>
 </tr>
 <tr class="even">
 <td style="text-align: right;">90243</td>
 <td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
-<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+<td style="text-align: left;">Examine Sales Trends, Optimize Stock Management, Replicate Success</td>
 </tr>
 <tr class="odd">
 <td style="text-align: right;">90354</td>
 <td style="text-align: left;">Focus Area 2 (Low Prediction, High Revenue)</td>
-<td style="text-align: left;">Investigate Stock Levels, Enhance Marketing Strategies, Improve Product Listings</td>
+<td style="text-align: left;">Examine Sales Trends, Optimize Stock Management, Replicate Success</td>
 </tr>
 </tbody>
 </table>
