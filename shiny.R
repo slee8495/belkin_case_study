@@ -132,7 +132,7 @@ server <- function(input, output, session) {
             legend.title = element_text(size = 10),
             legend.text = element_text(size = 8))
     
-    combined_plot <- p1 / p2
+    combined_plot <- p1 | p2
     combined_plot
   })
   
