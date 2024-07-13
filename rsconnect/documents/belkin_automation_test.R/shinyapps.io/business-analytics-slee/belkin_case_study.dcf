@@ -5,7 +5,7 @@ account: business-analytics-slee
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 12312981
-bundleId: 8859316
+bundleId: 8859416
 url: https://business-analytics-slee.shinyapps.io/belkin_case_study/
 version: 1
 asMultiple: FALSE

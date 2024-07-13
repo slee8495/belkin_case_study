@@ -1,12 +1,17 @@
+# Install and load necessary packages
+if (!require(rsconnect)) install.packages("rsconnect")
+library(rsconnect)
+
+# Set the application size to xlarge (2048MB)
+rsconnect::configureApp("belkin_case_study", size = "large")
+
+# Shiny app code
 library(shiny)
 library(shinythemes)
-library(DT)
 library(tidyverse)
 library(lubridate)
 library(readxl)
 library(shinyWidgets)
-library(skimr)
-library(caret)
 library(patchwork)
 
 # Set the maximum upload size to 50 MB
@@ -27,14 +32,11 @@ ui <- navbarPage(
              )
            )
   ),
-  tabPanel("Data Summary",
-           DTOutput("data_summary")
-  ),
-  tabPanel("Model Summary",
-           verbatimTextOutput("model_summary")
-  ),
   tabPanel("Scatter Plots",
            plotOutput("combined_scatter_plot")
+  ),
+  tabPanel("Line Plots",
+           plotOutput("combined_line_plot")
   )
 )
 
@@ -46,62 +48,37 @@ server <- function(input, output, session) {
     req(input$belkin_file)
     showNotification("Uploading file...", duration = 5)
     tryCatch({
+      # Read the uploaded Excel file
       data <- read_xlsx(input$belkin_file$datapath)
+      
+      # Save the data as an RDS file in a temporary location
+      rds_path <- tempfile(fileext = ".rds")
+      saveRDS(data, rds_path)
+      
+      # Load the data from the RDS file
+      data <- readRDS(rds_path)
+      
       belkin_data(data)
-      showNotification("File uploaded successfully.", duration = 5)
+      showNotification("File uploaded and converted to RDS successfully.", duration = 5)
     }, error = function(e) {
       showNotification(paste("Error in file upload:", e$message), type = "error")
     })
   })
   
-  output$data_summary <- renderDT({
-    req(belkin_data())
-    skimmed_data <- skim(belkin_data())
-    datatable(skimmed_data, options = list(pageLength = 20, scrollX = TRUE))
-  })
-  
-  output$model_summary <- renderPrint({
-    req(belkin_data())
-    
-    model_data <- belkin_data() %>% janitor::clean_names() %>% 
-      mutate(ordered_revenue_amount = as.numeric(ordered_revenue_amount),
-             ordered_units = as.numeric(ordered_units),
-             asp = as.numeric(asp),
-             marketing_spend = as.numeric(marketing_spend),
-             views = as.numeric(views),
-             category = as.factor(category),
-             subcategory = as.factor(subcategory)) %>%
-      replace_na(list(ordered_revenue_amount = 0,
-                      ordered_units = 0,
-                      asp = 0,
-                      marketing_spend = 0,
-                      views = 0)) %>%
-      mutate(across(everything(), ~ replace(.x, is.infinite(.x) | is.nan(.x), 0)))
-    
-    data_dummies <- dummyVars(" ~ .", data = model_data)
-    data_prepared <- predict(data_dummies, newdata = model_data) %>% as.data.frame()
-    
-    set.seed(123)
-    trainIndex <- createDataPartition(data_prepared$ordered_revenue_amount, p = 0.8, list = FALSE, times = 1)
-    data_train <- data_prepared[trainIndex,]
-    data_test <- data_prepared[-trainIndex,]
-    
-    model <- lm(ordered_revenue_amount ~ ., data = data_train)
-    
-    options(scipen = 999)
-    summary(model)
-  })
-  
   output$combined_scatter_plot <- renderPlot({
     req(belkin_data())
     
-    belkin_data_clean <- belkin_data() %>% janitor::clean_names() %>% 
+    belkin_data_clean <- belkin_data() %>% 
+      janitor::clean_names() %>% 
       mutate(
         asp = as.numeric(asp),
         ordered_revenue_amount = as.numeric(ordered_revenue_amount),
         marketing_spend = as.numeric(marketing_spend),
         views = as.numeric(views)
-      )
+      ) %>%
+      # Aggregate data to reduce the number of points plotted
+      group_by(marketing_spend, asp, views) %>%
+      summarise(ordered_revenue_amount = sum(ordered_revenue_amount), .groups = 'drop')
     
     p1 <- ggplot(belkin_data_clean, aes(x = marketing_spend, y = ordered_revenue_amount, color = asp, size = views)) +
       geom_point(alpha = 0.6) +
@@ -133,6 +110,39 @@ server <- function(input, output, session) {
     
     combined_plot <- p1 / p2
     combined_plot
+  })
+  
+  output$combined_line_plot <- renderPlot({
+    req(belkin_data())
+    
+    t1 <- belkin_data() %>% janitor::clean_names() %>% 
+      mutate(week_ending = as.Date(week_ending)) %>%
+      group_by(week_ending) %>%
+      summarise(total_revenue = sum(ordered_revenue_amount), .groups = 'drop') %>%
+      ggplot(aes(x = week_ending, y = total_revenue)) +
+      geom_line(color = "blue") +
+      labs(title = "Revenue Over Time", x = " ", y = "Total Revenue ($)") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
+    
+    t2 <- belkin_data() %>% janitor::clean_names() %>% 
+      mutate(week_ending = as.Date(week_ending)) %>%
+      group_by(week_ending) %>%
+      summarise(total_views = sum(views), .groups = 'drop') %>%
+      ggplot(aes(x = week_ending, y = total_views)) +
+      geom_line(color = "red") +
+      labs(title = "Views Over Time",
+           x = "Week Ending",
+           y = "Total Views") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
+    
+    combined_plot_2 <- t1 / t2
+    combined_plot_2
   })
 }
 
