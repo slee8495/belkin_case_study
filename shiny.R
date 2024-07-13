@@ -1,6 +1,5 @@
 library(shiny)
 library(shinythemes)
-library(DT)
 library(tidyverse)
 library(lubridate)
 library(readxl)
@@ -14,8 +13,7 @@ options(shiny.maxRequestSize = 50 * 1024^2, shiny.trace = TRUE)
 
 # UI 
 ui <- navbarPage(
-  theme = shinythemes::shinytheme("flatly"),
-  "Belkin Case Study",
+  " ",
   tabPanel("Data Upload",
            sidebarLayout(
              sidebarPanel(
@@ -28,13 +26,16 @@ ui <- navbarPage(
            )
   ),
   tabPanel("Data Summary",
-           DTOutput("data_summary")
+           verbatimTextOutput("data_summary")
   ),
   tabPanel("Model Summary",
            verbatimTextOutput("model_summary")
   ),
   tabPanel("Scatter Plots",
            plotOutput("combined_scatter_plot")
+  ),
+  tabPanel("Line Plots",
+           plotOutput("combined_line_plot")
   )
 )
 
@@ -54,10 +55,10 @@ server <- function(input, output, session) {
     })
   })
   
-  output$data_summary <- renderDT({
+  output$data_summary <- renderPrint({
     req(belkin_data())
     skimmed_data <- skim(belkin_data())
-    datatable(skimmed_data, options = list(pageLength = 20, scrollX = TRUE))
+    print(skimmed_data)
   })
   
   output$model_summary <- renderPrint({
@@ -133,6 +134,39 @@ server <- function(input, output, session) {
     
     combined_plot <- p1 / p2
     combined_plot
+  })
+  
+  output$combined_line_plot <- renderPlot({
+    req(belkin_data())
+    
+    t1 <- belkin_data() %>% janitor::clean_names() %>% 
+      mutate(week_ending = as.Date(week_ending)) %>%
+      group_by(week_ending) %>%
+      summarise(total_revenue = sum(ordered_revenue_amount), .groups = 'drop') %>%
+      ggplot(aes(x = week_ending, y = total_revenue)) +
+      geom_line(color = "blue") +
+      labs(title = "Revenue Over Time", x = " ", y = "Total Revenue ($)") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
+    
+    t2 <- belkin_data() %>% janitor::clean_names() %>% 
+      mutate(week_ending = as.Date(week_ending)) %>%
+      group_by(week_ending) %>%
+      summarise(total_views = sum(views), .groups = 'drop') %>%
+      ggplot(aes(x = week_ending, y = total_views)) +
+      geom_line(color = "red") +
+      labs(title = "Views Over Time",
+           x = "Week Ending",
+           y = "Total Views") +
+      theme_minimal() +
+      theme(plot.title = element_text(hjust = 0.5, size = 14, face = "bold"),
+            axis.title.x = element_text(size = 12),
+            axis.title.y = element_text(size = 12))
+    
+    combined_plot_2 <- t1 / t2
+    combined_plot_2
   })
 }
 
